@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<model name="tut:TutorialModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+   <!-- Optional meta-data about the model -->   
+   <description>Tutorial Model</description>
+   <author>Paco Antúnez</author>
+   <version>1.0</version>
+
+   <imports>
+   	<!-- Import Alfresco Dictionary Definitions -->
+      <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+      <!-- Import Alfresco Content Domain Model Definitions -->
+      <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm"/>
+   </imports>
+
+   <!-- Introduction of new namespaces defined by this model -->
+   <namespaces>
+      <namespace uri="http://www.thetechconsultant.com/model/tutorial" prefix="tut"/>
+   </namespaces>
+
+   <types>
+      <type name="tut:hcContent">
+         <title>Health Care Content</title>
+         <parent>cm:content</parent>
+         <properties>
+            <property name="tut:specialty">
+               <type>d:text</type>
+            </property>
+         </properties>       
+      </type>
+
+   </types>
+   
+</model>
