@@ -16,7 +16,7 @@ public class GroupsBean {
 	
 	private static final Log LOGGER = LogFactory.getLog(GroupsBean.class);
 	
-	private static final String ALFRESCO_GROUPS_URL = "http://192.168.145.166:8080/alfresco/wcservice/api/groups";
+	private static final String ALFRESCO_GROUPS_URL = "http://192.168.145.168:8080/alfresco/wcservice/api/groups";
 	
 	private Map<String, Object> groups = null;
 	
