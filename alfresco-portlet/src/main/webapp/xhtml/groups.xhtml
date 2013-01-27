@@ -7,12 +7,42 @@
 	  xmlns:ui="http://java.sun.com/jsf/facelets">
  
     <h:head>
-        <title>Alfresco User Groups</title>
+        <title><h:outputText value="#{bundle['alfresco.groups.title']}" /></title>
+        <h:outputStylesheet library="default" name="css/alfresco.css" />
     </h:head>
     <h:body>
-    	<h3>Alfresco User Groups</h3>
-		<ui:repeat value="#{groupsBean.groups.data}" var="group">
-			<h:outputText value="#{group.shortName}" /><br />
-		</ui:repeat>
+    	<h:outputText styleClass="title" value="#{bundle['alfresco.groups.title']}" />
+		<h:form>
+			<h:panelGroup id="wrapper-panel" styleClass="wrap" layout="block">
+				<h:panelGroup id="sidebar-panel" styleClass="sidebar" layout="block">
+					<h:panelGroup id="sidebar-title" layout="block">
+						<h:commandLink action="#{groupsBean.clearSelection()}">
+				    		<h:outputText styleClass="subtitle" value="#{bundle['alfresco.allgroups.title']}" />
+						</h:commandLink>
+					</h:panelGroup>
+					<ui:repeat value="#{groupsBean.groups.data}" var="group">
+						<h:commandLink action="#{groupsBean.setSelectedGroup(group.shortName)}">
+							<h:outputText value="#{group.shortName}" /><br />
+						</h:commandLink>
+					</ui:repeat>
+				</h:panelGroup>
+				<h:panelGroup id="main-panel" styleClass="main" layout="block">
+					<h:panelGroup id="main-title" layout="block">
+			    		<h:outputFormat styleClass="subtitle" value="#{bundle['alfresco.children.title']}"
+			    				rendered="#{not empty groupsBean.selectedGroup}">
+			    			<f:param value="#{groupsBean.selectedGroup}" />
+			    		</h:outputFormat>
+			    		<h:outputText styleClass="subtitle" value="#{bundle['alfresco.no-selection.title']}"
+			    				rendered="#{empty groupsBean.selectedGroup}" />
+					</h:panelGroup>
+					<ui:repeat value="#{groupsBean.children.data}" var="child">
+						<h:outputText value="#{child.shortName}" /><br />
+					</ui:repeat>
+				</h:panelGroup>
+				<h:panelGroup id="footer-panel" styleClass="footer" layout="block">
+					<h:outputText value=" " />
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:form>
     </h:body>
 </html>

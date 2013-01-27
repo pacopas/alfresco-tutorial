@@ -31,6 +31,8 @@ public class GroupsBean {
 	
 	private Map<String, Object> groups;
 	private Requestor requestor;
+	private String selectedGroup;
+	private Map<String, Object> children;
 	
     @PostConstruct
     public void init() {
@@ -43,8 +45,14 @@ public class GroupsBean {
 			groups = MAPPER.readValue(response, new TypeReference<Map<String, Object>>(){});
 		} catch (Exception e) {
 			LOGGER.error("Excepcion getting the root groups", e);
-			groups.clear();
+			groups = null;
+		} finally {
+			children = null;
 		}
+	}
+	
+	public void clearSelection() {
+		this.setSelectedGroup(null);
 	}
 
 	public Map<String, Object> getGroups() {
@@ -53,6 +61,31 @@ public class GroupsBean {
 
 	public void setRequestor(Requestor requestor) {
 		this.requestor = requestor;
+	}
+
+	public String getSelectedGroup() {
+		return selectedGroup;
+	}
+
+	public void setSelectedGroup(String selectedGroup) {
+		this.selectedGroup = selectedGroup;
+		if (selectedGroup == null || selectedGroup.length() == 0) {
+			children = null;
+		} else {
+			String url = ALFRESCO_GROUPS_URL + "/" + selectedGroup + "/children";
+			try {
+				String response = requestor.doGet(url, HEADERS);
+				children = MAPPER.readValue(response, new TypeReference<Map<String, Object>>(){});
+			} catch (Exception e) {
+				LOGGER.error("Exception getting the content of group '" + selectedGroup + "'", e);
+				children = null;
+				this.selectedGroup = null;
+			}
+		}
+	}
+
+	public Map<String, Object> getChildren() {
+		return children;
 	}
 
 }
