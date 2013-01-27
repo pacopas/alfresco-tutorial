@@ -4,7 +4,7 @@
 	<groupId>ie.paco</groupId>
 	<artifactId>alfresco-portlet</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${portletVersion}</version>
 	<name>Maven Portlet Archetype</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
@@ -43,6 +43,18 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
 			<version>1.9.9</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
