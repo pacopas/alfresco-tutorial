@@ -28,6 +28,11 @@
         </managed-property>
     </managed-bean>
     <managed-bean>
+        <managed-bean-name>dummyRequestor</managed-bean-name>
+        <managed-bean-class>ie.paco.alfresco_portlet.http.impl.DummyRequestor</managed-bean-class>
+        <managed-bean-scope>application</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
         <managed-bean-name>groupsBean</managed-bean-name>
         <managed-bean-class>ie.paco.alfresco_portlet.GroupsBean</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
