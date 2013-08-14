@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+    
+    <!-- Date Formats -->
+    <bean id="dateFormat1" class="org.apache.commons.lang.time.FastDateFormat"
+    		factory-method="getInstance">
+    	<constructor-arg value="dd/MM/yyyy"/>
+    </bean>
+    
+    <bean id="dateFormat2" class="org.apache.commons.lang.time.FastDateFormat"
+    		factory-method="getInstance">
+    	<constructor-arg value="dd/MM/yy"/>
+    </bean>
+
+	<util:map id="dateFormats">
+        <entry key="dd/MM/yyyy" value-ref="dateFormat1" />
+        <entry key="dd/MM/yy" value-ref="dateFormat2" />
+    </util:map>
+    <!-- End of Date Formats -->
+
+	<bean id="dateFormatFactory"
+			class="ie.paco.alfresco.util.impl.DateFormatFactory">
+		<property name="formats" ref="dateFormats" />
+	</bean>
+    
+    <bean id="datePropertiesDecorator" parent="baseDecorator" class="ie.paco.alfresco.repo.jscript.app.DatePropertyDecorator">
+        <property name="formatFactory" ref="dateFormatFactory"/>
+        <property name="propertyNames">
+            <set>
+                <value>cm:created</value>
+                <value>cm:modified</value>
+                <value>cm:accessed</value>
+            </set>
+        </property>
+    </bean>
+</beans>
