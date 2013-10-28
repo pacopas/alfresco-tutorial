@@ -11,7 +11,41 @@
     		scope="prototype">
     </bean>
     
-    <bean id="recordWriter" class="ie.paco.ir.impl.AlfrescoRecordWriter">
+    <bean id="httpClient" class="org.apache.commons.httpclient.HttpClient">
+    </bean>
+    
+	<util:map id="header">
+        <entry key="Authorization" value="NLAuth nlauth_account=TSTDRV1095557, nlauth_email=testpaco102113@netsuite.com, nlauth_signature=netsuite1, nlauth_role=1047"/>
+    </util:map>
+    
+    <bean id="factoryService" class="ie.paco.common.service.impl.FactoryServiceImpl">
+    </bean>
+    
+    <bean id="requestor" class="ie.paco.common.http.impl.RequestorImpl">
+		<property name="client" ref="httpClient" />
+		<property name="factoryService" ref="factoryService" />
+    </bean>
+    
+    <bean id="patientRecordWriter" class="ie.paco.ir.impl.PatientRecordWriter">
+		<property name="requestor" ref="requestor" />
+		<property name="uri" value="https://rest.na1.netsuite.com/app/site/hosting/restlet.nl?script=96&amp;deploy=1" />
+		<property name="header" ref="header" />
+    </bean>
+    
+    <bean id="measurementRecordWriter" class="ie.paco.ir.impl.MeasurementRecordWriter">
+		<property name="requestor" ref="requestor" />
+		<property name="uri" value="https://rest.na1.netsuite.com/app/site/hosting/restlet.nl?script=95&amp;deploy=1" />
+		<property name="header" ref="header" />
+    </bean>
+    
+	<util:map id="recordWriters">
+        <entry key="PATIENT" value-ref="patientRecordWriter"/>
+        <entry key="MEASUREMENT" value-ref="measurementRecordWriter"/>
+    </util:map>
+    
+    <bean id="slingshot" class="ie.paco.ir.Slingshot">
+		<property name="recordReader" ref="recordReader" />
+		<property name="recordWriters" ref="recordWriters" />
     </bean>
 
 </beans>
