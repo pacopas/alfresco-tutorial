@@ -14,7 +14,6 @@ public class CsvRecordReader implements RecordReader {
 
 	private BufferedReader reader;
 
-	@Override
 	public boolean openResource(String[] config) throws IOException {
 		boolean opened = false;
 		if (config == null || config.length == 0) {
@@ -26,9 +25,16 @@ public class CsvRecordReader implements RecordReader {
 		return opened;
 	}
 	
-	@Override
 	public String[] nextRecord() throws IOException {
-		return reader.readLine().split(",");
+		if (reader == null) {
+			throw new IllegalStateException("No BufferedReader has been opened for this RecordReader");
+		}
+		String[] record = null;
+		String line = reader.readLine();
+		if (line != null) {
+			record = line.split(",");
+		}
+		return record;
 	}
 	
 	public BufferedReader getReader() {

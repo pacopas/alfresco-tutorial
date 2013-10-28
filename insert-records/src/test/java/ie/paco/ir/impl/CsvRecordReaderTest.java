@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.File;
@@ -25,7 +24,7 @@ public class CsvRecordReaderTest {
 	
 	@Test(expected = FileNotFoundException.class)
 	public void testOpenResource_NOT_FOUND() throws IOException {
-		boolean opened = recordReader.openResource(new String[]{"not_found.csv"});
+		recordReader.openResource(new String[]{"not_found.csv"});
 	}
 	
 	@Test
@@ -49,13 +48,24 @@ public class CsvRecordReaderTest {
 		assertNotNull("reader shouldn't be null", recordReader.getReader());
 	}
 	
-	@Test(expected = IOException.class)
+	@Test
+	public void testNextRecord_EMPTY() throws IOException {
+		recordReader.openResource(new String[]{filePath});
+		String[] results = recordReader.nextRecord();
+		assertArrayEquals(new String[]{"a", "b", "c", "d", "e"}, results);
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void testNextRecord_NO_READER() throws IOException {
+		String[] results = recordReader.nextRecord();
+		assertNull(results);
+	}
+	
+	@Test
 	public void testNextRecord() throws IOException {
-		try {
-			recordReader.openResource(new String[]{filePath});
-		} catch (IOException ioe) {}
-		testFile.setReadable(false, false);
-		recordReader.nextRecord();
+		recordReader.openResource(new String[]{"src/test/empty_test.csv"});
+		String[] results = recordReader.nextRecord();
+		assertNull(results);
 	}
 	
 }
